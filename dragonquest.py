@@ -7,7 +7,7 @@ str_code = (
     15, 16, 17, 18, 19, 54, 55, 56, 57, 58,
     20, 21, 22, 23, 24, 38, 39, 40, 41, 42,
     25, 26, 27, 28, 29, 59, 60, 61, 62, 63,
-    35, 36, 37, 43,
+    35, 36, 37, 43
 )
 
 pwd_pos = (
@@ -26,7 +26,7 @@ class App:
                     1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         self.blink_flg = True
 
-        pyxel.init(256, 240, caption='Dragon Quest')
+        pyxel.init(256, 240, caption='Dragon Quest ～ふっかつのじゅもん～')
         pyxel.load('my_resource.pyxres')
         pyxel.run(self.update, self.draw)
 
@@ -57,6 +57,7 @@ class App:
                 self.cur[0] -= 1
 
         if pyxel.btnp(pyxel.KEY_SPACE):
+            pyxel.play(0, 0)
             cur_pos = self.cur[0] + self.cur[1] * 10
             if cur_pos <= 63:
                 self.pwd[self.pos] = cur_pos
@@ -82,7 +83,8 @@ class App:
             if p == -1:
                 pyxel.blt(pwd_pos[i][0], pwd_pos[i][1], 0, 88, 24, 8, 8)
             else:
-                pyxel.blt(pwd_pos[i][0], pwd_pos[i][1], 0, 0 + p % 10 * 8, 16 + p // 10 * 16, 8, 8)
+                pyxel.blt(pwd_pos[i][0], pwd_pos[i][1] - 8, 0, 0 + p %
+                          10 * 8, 16 + p // 10 * 16, 8, 16)
 
 
 App()
