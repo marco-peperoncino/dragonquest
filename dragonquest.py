@@ -1,4 +1,11 @@
+# ドラゴンクエスト ふっかつのじゅもん
+# 下記２つのページを大いに参考にさせていただいております。
+# https://qiita.com/yoshi389111/items/29ade2f62483e9c095d9
+# https://oscdis.hatenablog.com/entry/2014/03/30/225043
+
+
 import pyxel
+import ctypes
 
 # 文字コード
 str_code = (
@@ -20,6 +27,73 @@ pwd_pos = (
 )
 
 
+class SaveDataStruct(ctypes.Structure):
+    _fields_ = [
+        ("item1", ctypes.c_ubyte, 4),       # 1番目のアイテム 4bit 0～14
+        ("item2", ctypes.c_ubyte, 4),       # 2番目のアイテム 4bit 0～14
+
+        ("flg2", ctypes.c_ubyte, 1),        # フラグ せんしのゆびわを装備しているか 1bit
+        ("name2", ctypes.c_ubyte, 6),       # 名前2文字目 6bit 0～63
+        ("flg1", ctypes.c_ubyte, 1),        # フラグ りゅうのうろこを装備したことがあるか 1bit
+
+        ("exp_hi", ctypes.c_ubyte, 8),      # 経験値上位 8bit
+
+        ("item5", ctypes.c_ubyte, 4),       # 5番目のアイテム 4bit 0～14
+        ("item6", ctypes.c_ubyte, 4),       # 6番目のアイテム 4bit 0～14
+
+        ("herbs", ctypes.c_ubyte, 4),       # やくそう個数 4bit 0～6
+        ("key", ctypes.c_ubyte, 4),         # かぎ個数 4bit 0～6
+
+        ("gold_hi", ctypes.c_ubyte, 8),     # ゴールド上位 8bit
+
+        ("shield", ctypes.c_ubyte, 2),      # たて 2bit 0～3
+        ("armor", ctypes.c_ubyte, 3),       # よろい 3bit 0～7
+        ("wepon", ctypes.c_ubyte, 3),       # ぶき 3bit 0～7
+
+        ("name4", ctypes.c_ubyte, 6),       # 名前4文字目 6bit 0～63
+        ("flg3", ctypes.c_ubyte, 1),        # フラグ ドラゴンを倒したか 1bit
+        ("crypt1", ctypes.c_ubyte, 1),      # 暗号化キー1 1bit
+
+        ("item7", ctypes.c_ubyte, 4),       # 7番目のアイテム 4bit 0～14
+        ("item8", ctypes.c_ubyte, 4),       # 8番目のアイテム 4bit 0～14
+
+        ("crypt2", ctypes.c_ubyte, 1),      # 暗号化キー2 1bit
+        ("flg4", ctypes.c_ubyte, 1),        # フラグ ゴーレムを倒したか 1bit
+        ("name1", ctypes.c_ubyte, 6),       # 名前1文字目 6bit 0～63
+
+        ("gold_low", ctypes.c_ubyte, 8),    # ゴールド下位 8bit
+
+        ("item3", ctypes.c_ubyte, 4),       # 3番目のアイテム 4bit 0～14
+        ("item4", ctypes.c_ubyte, 4),       # 4番目のアイテム 4bit 0～14
+
+        ("name3", ctypes.c_ubyte, 6),       # 名前3文字目 6bit 0～63
+        ("flg5", ctypes.c_ubyte, 1),        # フラグ しのくびかざりを入手したことがあるか 1bit
+        ("crypt3", ctypes.c_ubyte, 1),      # 暗号化キー3 1bit
+
+        ("exp_low", ctypes.c_ubyte, 8),     # 経験値下位 8bit
+
+        ("crc", ctypes.c_ubyte, 8),         # CRC 8bit
+    ]
+
+
+class SaveData:
+    def __init__(self):
+        self.data = SaveDataStruct()
+
+    def crc(self):
+        cd = 0x8000  # 1000 0000 0000 0000
+        for i in range(15):
+            for j in range(8):
+                if cd & 0x8000:
+                    cd = (cd << 1) ^ 0x1021  # 0001 0000 0010 0001
+                else:
+                    cd <<= 1
+
+    # セーブデータの8bit区切りを、ふっかつのじゅもんの6bit区切りに変換
+    def convert_6to8(self):
+        pass
+
+
 class App:
     def __init__(self):
         # 上段の入力した文字が表示されている所のカーソル位置
@@ -31,6 +105,9 @@ class App:
                     1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         # カーソルを点滅させるためのフラグ
         self.blink_flg = True
+
+        data = SaveData()
+        data.crc()
 
         pyxel.init(256, 240, caption='Dragon Quest ～ふっかつのじゅもん～')
         pyxel.load('my_resource.pyxres')
