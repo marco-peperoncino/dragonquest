@@ -5,7 +5,6 @@
 
 
 import pyxel
-import ctypes
 
 # 文字コード
 str_code = (
@@ -27,58 +26,59 @@ pwd_pos = (
 )
 
 
-class SaveDataStruct(ctypes.Structure):
-    _fields_ = [
-        ("item1", ctypes.c_ubyte, 4),       # 1番目のアイテム 4bit 0～14
-        ("item2", ctypes.c_ubyte, 4),       # 2番目のアイテム 4bit 0～14
-
-        ("flg2", ctypes.c_ubyte, 1),        # フラグ せんしのゆびわを装備しているか 1bit
-        ("name2", ctypes.c_ubyte, 6),       # 名前2文字目 6bit 0～63
-        ("flg1", ctypes.c_ubyte, 1),        # フラグ りゅうのうろこを装備したことがあるか 1bit
-
-        ("exp_hi", ctypes.c_ubyte, 8),      # 経験値上位 8bit
-
-        ("item5", ctypes.c_ubyte, 4),       # 5番目のアイテム 4bit 0～14
-        ("item6", ctypes.c_ubyte, 4),       # 6番目のアイテム 4bit 0～14
-
-        ("herbs", ctypes.c_ubyte, 4),       # やくそう個数 4bit 0～6
-        ("key", ctypes.c_ubyte, 4),         # かぎ個数 4bit 0～6
-
-        ("gold_hi", ctypes.c_ubyte, 8),     # ゴールド上位 8bit
-
-        ("shield", ctypes.c_ubyte, 2),      # たて 2bit 0～3
-        ("armor", ctypes.c_ubyte, 3),       # よろい 3bit 0～7
-        ("wepon", ctypes.c_ubyte, 3),       # ぶき 3bit 0～7
-
-        ("name4", ctypes.c_ubyte, 6),       # 名前4文字目 6bit 0～63
-        ("flg3", ctypes.c_ubyte, 1),        # フラグ ドラゴンを倒したか 1bit
-        ("crypt1", ctypes.c_ubyte, 1),      # 暗号化キー1 1bit
-
-        ("item7", ctypes.c_ubyte, 4),       # 7番目のアイテム 4bit 0～14
-        ("item8", ctypes.c_ubyte, 4),       # 8番目のアイテム 4bit 0～14
-
-        ("crypt2", ctypes.c_ubyte, 1),      # 暗号化キー2 1bit
-        ("flg4", ctypes.c_ubyte, 1),        # フラグ ゴーレムを倒したか 1bit
-        ("name1", ctypes.c_ubyte, 6),       # 名前1文字目 6bit 0～63
-
-        ("gold_low", ctypes.c_ubyte, 8),    # ゴールド下位 8bit
-
-        ("item3", ctypes.c_ubyte, 4),       # 3番目のアイテム 4bit 0～14
-        ("item4", ctypes.c_ubyte, 4),       # 4番目のアイテム 4bit 0～14
-
-        ("name3", ctypes.c_ubyte, 6),       # 名前3文字目 6bit 0～63
-        ("flg5", ctypes.c_ubyte, 1),        # フラグ しのくびかざりを入手したことがあるか 1bit
-        ("crypt3", ctypes.c_ubyte, 1),      # 暗号化キー3 1bit
-
-        ("exp_low", ctypes.c_ubyte, 8),     # 経験値下位 8bit
-
-        ("crc", ctypes.c_ubyte, 8),         # CRC 8bit
-    ]
-
-
 class SaveData:
+    # ("item1", ctypes.c_ubyte, 4),       # 1番目のアイテム 4bit 0～14
+    # ("item2", ctypes.c_ubyte, 4),       # 2番目のアイテム 4bit 0～14
+
+    # ("flg2", ctypes.c_ubyte, 1),        # フラグ せんしのゆびわを装備しているか 1bit
+    # ("name2", ctypes.c_ubyte, 6),       # 名前2文字目 6bit 0～63
+    # ("flg1", ctypes.c_ubyte, 1),        # フラグ りゅうのうろこを装備したことがあるか 1bit
+
+    # ("exp_hi", ctypes.c_ubyte, 8),      # 経験値上位 8bit
+
+    # ("item5", ctypes.c_ubyte, 4),       # 5番目のアイテム 4bit 0～14
+    # ("item6", ctypes.c_ubyte, 4),       # 6番目のアイテム 4bit 0～14
+
+    # ("herbs", ctypes.c_ubyte, 4),       # やくそう個数 4bit 0～6
+    # ("key", ctypes.c_ubyte, 4),         # かぎ個数 4bit 0～6
+
+    # ("gold_hi", ctypes.c_ubyte, 8),     # ゴールド上位 8bit
+
+    # ("shield", ctypes.c_ubyte, 2),      # たて 2bit 0～3
+    # ("armor", ctypes.c_ubyte, 3),       # よろい 3bit 0～7
+    # ("wepon", ctypes.c_ubyte, 3),       # ぶき 3bit 0～7
+
+    # ("name4", ctypes.c_ubyte, 6),       # 名前4文字目 6bit 0～63
+    # ("flg3", ctypes.c_ubyte, 1),        # フラグ ドラゴンを倒したか 1bit
+    # ("crypt1", ctypes.c_ubyte, 1),      # 暗号化キー1 1bit
+
+    # ("item7", ctypes.c_ubyte, 4),       # 7番目のアイテム 4bit 0～14
+    # ("item8", ctypes.c_ubyte, 4),       # 8番目のアイテム 4bit 0～14
+
+    # ("crypt2", ctypes.c_ubyte, 1),      # 暗号化キー2 1bit
+    # ("flg4", ctypes.c_ubyte, 1),        # フラグ ゴーレムを倒したか 1bit
+    # ("name1", ctypes.c_ubyte, 6),       # 名前1文字目 6bit 0～63
+
+    # ("gold_low", ctypes.c_ubyte, 8),    # ゴールド下位 8bit
+
+    # ("item3", ctypes.c_ubyte, 4),       # 3番目のアイテム 4bit 0～14
+    # ("item4", ctypes.c_ubyte, 4),       # 4番目のアイテム 4bit 0～14
+
+    # ("name3", ctypes.c_ubyte, 6),       # 名前3文字目 6bit 0～63
+    # ("flg5", ctypes.c_ubyte, 1),        # フラグ しのくびかざりを入手したことがあるか 1bit
+    # ("crypt3", ctypes.c_ubyte, 1),      # 暗号化キー3 1bit
+
+    # ("exp_low", ctypes.c_ubyte, 8),     # 経験値下位 8bit
+
+    # ("crc", ctypes.c_ubyte, 8),         # CRC 8bit
+
     def __init__(self):
-        self.data = SaveDataStruct()
+
+        # セーブデータ15byte分
+        self.savedata = [0] * 15
+        # ふっかつのじゅもん20文字分
+        # けせいなの　へごべううつに　はほめよれ　よごぜ
+        self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
 
     def crc(self):
         cd = 0x8000  # 1000 0000 0000 0000
@@ -89,9 +89,22 @@ class SaveData:
                 else:
                     cd <<= 1
 
-    # セーブデータの8bit区切りを、ふっかつのじゅもんの6bit区切りに変換
-    def convert_6to8(self):
-        pass
+    def load(self):
+        data = [0] * 20
+        self.decrypt(data)
+
+        for i in data:
+            print(i)
+
+    def decrypt(self, data):
+        # まずふっかつのじゅもんのうしろの文字からひとつ前の文字を引いて、
+        # さらにそこから４を引いた数字から6bit取り出す
+        index = 19
+        for i in range(index):
+            data[index] = (self.word[index] - self.word[index-1] - 4) & 0x3F  # 0011 1111
+            index -= 1
+
+        data[0] = (self.word[0] - 4) & 0x3F
 
 
 class App:
@@ -106,8 +119,8 @@ class App:
         # カーソルを点滅させるためのフラグ
         self.blink_flg = True
 
-        data = SaveData()
-        data.crc()
+        self.save_data = SaveData()
+        self.save_data.load()
 
         pyxel.init(256, 240, caption='Dragon Quest ～ふっかつのじゅもん～')
         pyxel.load('my_resource.pyxres')
@@ -149,7 +162,7 @@ class App:
 
             # 文字の場合
             if cur_pos <= 63:
-                self.pwd[self.pos] = cur_pos
+                self.pwd[self.pos] = str_code[cur_pos]
                 if self.pos < 19:
                     self.pos += 1
             # もどる
@@ -163,6 +176,10 @@ class App:
             # おわり
             elif cur_pos == 68:
                 print('おわり')
+
+            # for p in self.pwd:
+            #     print(f'{p}, ', end='')
+            # print('')
 
         # カーソルを点滅させる
         if pyxel.frame_count % 4 == 0:
