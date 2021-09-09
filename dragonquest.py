@@ -77,8 +77,9 @@ class SaveData:
         # セーブデータ15byte分
         self.savedata = [0] * 15
         # ふっかつのじゅもん20文字分
-        # おけすちな　のへむゆるがご　ぜづびあお　けすち
-        self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
+        # けせいなの　へごべううつに　はほめよれ　よごぜ
+        # self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
+        self.word = [8, 13, 1, 20, 24, 28, 48, 62, 2, 2, 17, 21, 25, 29, 36, 37, 41, 37, 48, 52]
 
     def crc(self):
         cd = 0x8000  # 1000 0000 0000 0000
@@ -92,6 +93,7 @@ class SaveData:
     def load(self):
         data = [0] * 20
         self.decrypt(data)
+        self.convert_6to8(data)
 
         # for i in data:
         #     print(i)
@@ -101,10 +103,36 @@ class SaveData:
         # さらにそこから４を引いた数字から6bit取り出す
         index = 19
         for i in range(index):
-            data[index] = (self.word[index] - self.word[index-1] - 4) & 0x3F  # 0011 1111
+            data[index] = (self.word[index] - self.word[index - 1] - 4) & 0x3F  # 0011 1111
             index -= 1
 
         data[0] = (self.word[0] - 4) & 0x3F
+
+    # ふっかつのじゅもんを数値化した物を後ろの6bitを前に8bitに切り分けながら並べ替え
+    def convert_6to8(self, data):
+        d = []
+        index = 19
+        for i in range(5):
+            tmp = (data[index] << 18) | (data[index - 1] <<
+                                         12) | (data[index - 2] << 6) | data[index - 3]
+            d.append((tmp >> 16) & 0xFF)
+            d.append((tmp >> 8) & 0xFF)
+            d.append(tmp & 0xFF)
+            index -= 4
+
+        print(bin(d[9] & 0x3F))
+        # print(d[9] & 0x3F)
+        # print(d[1] & 0x7E)
+        # print(d[12] & 0x3F)
+        # print(d[7] & 0x3F)
+
+
+#               for (int  i = 19, j = 0 ; i >= 0 ; i -=4 ){
+#     long w = (data[i]<<18)|(data[i-1]<<12)|(data[i-2]<<6)|data[i-3] ;
+#     code[j++] = ( w >> 16 ) & 0xff ;
+#     code[j++] = ( w >>  8 ) & 0xff ;
+#     code[j++] =   w         & 0xff ;
+#   }
 
 
 class App:
