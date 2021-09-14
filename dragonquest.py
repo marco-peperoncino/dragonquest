@@ -58,55 +58,83 @@ name_code = (
     'ら', 'り', 'る', 'れ', 'ろ',
     'わ', 'を', 'ん',
     'っ', 'ゃ', 'ゅ', 'ょ',
-    '”', '゜', '－',
+    '”', '゜', '－', '　'
 )
+
+# ぶき
+weapon = ('なし', 'たけざお', 'こんぼう', 'どうのつるぎ', 'てつのおの', 'はがねのつるぎ', 'ほのおのつるぎ', 'ロトのつるぎ')
+
+# よろい
+armor = ('なし', 'ぬののふく', 'かわのふく', 'くさりかたびら', 'てつのよろい', 'はがねのよろい', 'まほうのよろい', 'ロトのよろい')
+
+# たて
+shield = ('なし', 'かわのたて', 'てつのたて', 'みかがみのたて')
+
+# レベルとけいけんちの対応表
+lv_exp = (65535, 65000, 61000, 57000, 53000, 49000, 45000, 41000, 37000, 33000, 29000, 25000, 21000,
+          17000, 13000, 10000, 7500, 5500, 4000, 2900, 2000, 1300, 800, 450, 220, 110, 47, 23, 7, 0)
 
 
 class SaveData:
-    # ("item1", ctypes.c_ubyte, 4),       # 1番目のアイテム 4bit 0～14
-    # ("item2", ctypes.c_ubyte, 4),       # 2番目のアイテム 4bit 0～14
+    # 0
+    # 1番目のアイテム 4bit 0～14
+    # 2番目のアイテム 4bit 0～14
 
-    # ("flg2", ctypes.c_ubyte, 1),        # フラグ せんしのゆびわを装備しているか 1bit
-    # ("name2", ctypes.c_ubyte, 6),       # 名前2文字目 6bit 0～63
-    # ("flg1", ctypes.c_ubyte, 1),        # フラグ りゅうのうろこを装備したことがあるか 1bit
+    # 1
+    # フラグ せんしのゆびわを装備しているか 1bit
+    # 名前2文字目 6bit 0～63
+    # フラグ りゅうのうろこを装備したことがあるか 1bit
 
-    # ("exp_hi", ctypes.c_ubyte, 8),      # 経験値上位 8bit
+    # 2
+    # 経験値上位 8bit
 
-    # ("item5", ctypes.c_ubyte, 4),       # 5番目のアイテム 4bit 0～14
-    # ("item6", ctypes.c_ubyte, 4),       # 6番目のアイテム 4bit 0～14
+    # 3
+    # 5番目のアイテム 4bit 0～14
+    # 6番目のアイテム 4bit 0～14
 
-    # ("herbs", ctypes.c_ubyte, 4),       # やくそう個数 4bit 0～6
-    # ("key", ctypes.c_ubyte, 4),         # かぎ個数 4bit 0～6
+    # 4
+    # やくそう個数 4bit 0～6
+    # かぎ個数 4bit 0～6
 
-    # ("gold_hi", ctypes.c_ubyte, 8),     # ゴールド上位 8bit
+    # 5
+    # ゴールド上位 8bit
 
-    # ("shield", ctypes.c_ubyte, 2),      # たて 2bit 0～3
-    # ("armor", ctypes.c_ubyte, 3),       # よろい 3bit 0～7
-    # ("wepon", ctypes.c_ubyte, 3),       # ぶき 3bit 0～7
+    # 6
+    # たて 2bit 0～3
+    # よろい 3bit 0～7
+    # ぶき 3bit 0～7
 
-    # ("name4", ctypes.c_ubyte, 6),       # 名前4文字目 6bit 0～63
-    # ("flg3", ctypes.c_ubyte, 1),        # フラグ ドラゴンを倒したか 1bit
-    # ("crypt1", ctypes.c_ubyte, 1),      # 暗号化キー1 1bit
+    # 7
+    # 名前4文字目 6bit 0～63
+    # フラグ ドラゴンを倒したか 1bit
+    # 暗号化キー1 1bit
 
-    # ("item7", ctypes.c_ubyte, 4),       # 7番目のアイテム 4bit 0～14
-    # ("item8", ctypes.c_ubyte, 4),       # 8番目のアイテム 4bit 0～14
+    # 8
+    # 7番目のアイテム 4bit 0～14
+    # 8番目のアイテム 4bit 0～14
 
-    # ("crypt2", ctypes.c_ubyte, 1),      # 暗号化キー2 1bit
-    # ("flg4", ctypes.c_ubyte, 1),        # フラグ ゴーレムを倒したか 1bit
-    # ("name1", ctypes.c_ubyte, 6),       # 名前1文字目 6bit 0～63
+    # 9
+    # 暗号化キー2 1bit
+    # フラグ ゴーレムを倒したか 1bit
+    # 名前1文字目 6bit 0～63
 
-    # ("gold_low", ctypes.c_ubyte, 8),    # ゴールド下位 8bit
+    # 10
+    # ゴールド下位 8bit
 
-    # ("item3", ctypes.c_ubyte, 4),       # 3番目のアイテム 4bit 0～14
-    # ("item4", ctypes.c_ubyte, 4),       # 4番目のアイテム 4bit 0～14
+    # 11
+    # 3番目のアイテム 4bit 0～14
+    # 4番目のアイテム 4bit 0～14
 
-    # ("name3", ctypes.c_ubyte, 6),       # 名前3文字目 6bit 0～63
-    # ("flg5", ctypes.c_ubyte, 1),        # フラグ しのくびかざりを入手したことがあるか 1bit
-    # ("crypt3", ctypes.c_ubyte, 1),      # 暗号化キー3 1bit
+    # 12
+    # 名前3文字目 6bit 0～63
+    # フラグ しのくびかざりを入手したことがあるか 1bit
+    # 暗号化キー3 1bit
 
-    # ("exp_low", ctypes.c_ubyte, 8),     # 経験値下位 8bit
+    # 13
+    # 経験値下位 8bit
 
-    # ("crc", ctypes.c_ubyte, 8),         # CRC 8bit
+    # 14
+    # CRC 8bit
 
     def __init__(self):
 
@@ -129,7 +157,10 @@ class SaveData:
     def load(self):
         data = [0] * 20
 
-        self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
+        self.word = self.pswd_to_code('おさべつにはほわげげだどべうきさそさには')
+        # self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
+        # self.word = self.pswd_to_code('ほりいゆうじえにつくすどらごくえすとだよ')
+        # self.word = self.pswd_to_code('さいきようもちものですたあとしたいのだよ')
 
         # for i in self.word:
         #     print(i, end=' ')
@@ -138,6 +169,13 @@ class SaveData:
         self.decrypt(data)
         self.savedata = self.convert_6to8(data)
         print('なまえ', self.get_name())
+        print('ゴールド', self.get_gold())
+        print('けいけんち', self.get_exp())
+        print('レベル', self.get_level(self.get_exp()))
+        print('ぶき', weapon[self.get_weapon()])
+        print('よろい', armor[self.get_armor()])
+        print('たて', shield[self.get_shield()])
+
         # for i in data:
         #     print(i)
 
@@ -165,14 +203,46 @@ class SaveData:
 
         return d
 
+    # なまえ取得
     def get_name(self):
         name = name_code[(self.savedata[9] >> 2) & 0x3F]
         name += name_code[(self.savedata[1] >> 1) & 0x3F]
         name += name_code[self.savedata[12] & 0x3F]
         name += name_code[self.savedata[7] & 0x3F]
-
         return name
 
+    # ゴールド取得
+    def get_gold(self):
+        return self.savedata[5] << 8 | self.savedata[10]
+
+    # 経験値取得
+    def get_exp(self):
+        return self.savedata[2] << 8 | self.savedata[13]
+
+    # ぶき取得
+    def get_weapon(self):
+        return (self.savedata[6] >> 5) & 0x07
+
+    # よろい取得
+    def get_armor(self):
+        return (self.savedata[6] >> 2) & 0x07
+
+    # たて取得
+    def get_shield(self):
+        return self.savedata[6] & 0x03
+
+    # レベル取得
+    def get_level(self, exp):
+        lv = 30
+
+        for e in lv_exp:
+            if exp >= e:
+                break
+            lv -= 1
+
+        return lv
+
+    # ふっかつのじゅもん文字列から文字コード表取得
     def pswd_to_code(self, pswd):
         code = []
 
