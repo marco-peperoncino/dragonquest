@@ -70,6 +70,10 @@ armor = ('なし', 'ぬののふく', 'かわのふく', 'くさりかたびら'
 # たて
 shield = ('なし', 'かわのたて', 'てつのたて', 'みかがみのたて')
 
+# アイテム
+item = ('なし', 'たいまつ', 'せいすい', 'キメラのつばさ', 'りゅうのうろこ', 'ようせいのふえ', 'せんしのゆびわ', 'ロトのしるし',
+        'おうじょのあい', 'のろいのベルト', 'ぎんのたてごと', 'しのくびかざり', 'たいようのいし', 'あまぐものつえ', 'にじのしずく')
+
 # レベルとけいけんちの対応表
 lv_exp = (65535, 65000, 61000, 57000, 53000, 49000, 45000, 41000, 37000, 33000, 29000, 25000, 21000,
           17000, 13000, 10000, 7500, 5500, 4000, 2900, 2000, 1300, 800, 450, 220, 110, 47, 23, 7, 0)
@@ -145,6 +149,8 @@ class SaveData:
         self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
         # self.word = [8, 13, 1, 20, 24, 28, 48, 62, 2, 2, 17, 21, 25, 29, 36, 37, 41, 37, 48, 52]
 
+        self.item = [0] * 8
+
     def crc(self):
         cd = 0x8000  # 1000 0000 0000 0000
         for i in range(15):
@@ -157,10 +163,11 @@ class SaveData:
     def load(self):
         data = [0] * 20
 
-        self.word = self.pswd_to_code('おさべつにはほわげげだどべうきさそさには')
+        # self.word = self.pswd_to_code('おさべつにはほわげげだどべうきさそさには')
         # self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
         # self.word = self.pswd_to_code('ほりいゆうじえにつくすどらごくえすとだよ')
         # self.word = self.pswd_to_code('さいきようもちものですたあとしたいのだよ')
+        self.word = self.pswd_to_code('どらくえはねとげになつてつまらないあうと')
 
         # for i in self.word:
         #     print(i, end=' ')
@@ -168,13 +175,24 @@ class SaveData:
 
         self.decrypt(data)
         self.savedata = self.convert_6to8(data)
-        print('なまえ', self.get_name())
-        print('ゴールド', self.get_gold())
-        print('けいけんち', self.get_exp())
-        print('レベル', self.get_level(self.get_exp()))
-        print('ぶき', weapon[self.get_weapon()])
-        print('よろい', armor[self.get_armor()])
-        print('たて', shield[self.get_shield()])
+        print('■ なまえ：', self.get_name())
+        print('■ ゴールド：', self.get_gold())
+        print('■ けいけんち：', self.get_exp())
+        print('■ レベル：', self.get_level(self.get_exp()))
+        print('■ ぶき：', weapon[self.get_weapon()])
+        print('■ よろい：', armor[self.get_armor()])
+        print('■ たて：', shield[self.get_shield()])
+        print('■ やくそう：', self.get_herbs())
+        print('■ かぎ：', self.get_keys())
+        print('■ アイテム')
+        self.get_item()
+        for i in self.item:
+            print('　', i)
+        print('■ せんしのゆびわを装備しているか：', bool(self.get_flg1()))
+        print('■ りゅうのうろこを装備したことがあるか：', bool(self.get_flg2()))
+        print('■ ドラゴンを倒したか：', bool(self.get_flg3()))
+        print('■ ゴーレムを倒したか：', bool(self.get_flg4()))
+        print('■ しのくびかざりを入手したことがあるか：', bool(self.get_flg5()))
 
         # for i in data:
         #     print(i)
@@ -231,7 +249,47 @@ class SaveData:
     def get_shield(self):
         return self.savedata[6] & 0x03
 
+    # アイテム取得
+    def get_item(self):
+        self.item[0] = item[self.savedata[0] & 0x0F]
+        self.item[1] = item[(self.savedata[0] >> 4) & 0x0F]
+        self.item[2] = item[self.savedata[11] & 0x0F]
+        self.item[3] = item[(self.savedata[11] >> 4) & 0x0F]
+        self.item[4] = item[self.savedata[3] & 0x0F]
+        self.item[5] = item[(self.savedata[3] >> 4) & 0x0F]
+        self.item[6] = item[self.savedata[8] & 0x0F]
+        self.item[7] = item[(self.savedata[8] >> 4) & 0x0F]
+
+    # やくそう取得
+    def get_herbs(self):
+        return self.savedata[4] & 0x0F
+
+    # かぎ取得
+    def get_keys(self):
+        return (self.savedata[4] >> 4) & 0x0F
+
+    # フラグ せんしのゆびわを装備しているか取得
+    def get_flg1(self):
+        return self.savedata[1] & 0x01
+
+    # フラグ りゅうのうろこを装備したことがあるか取得
+    def get_flg2(self):
+        return (self.savedata[1] >> 7) & 0x01
+
+    # フラグ ドラゴンを倒したか取得
+    def get_flg3(self):
+        return (self.savedata[7] >> 6) & 0x01
+
+    # フラグ ゴーレムを倒したか取得
+    def get_flg4(self):
+        return (self.savedata[9] >> 1) & 0x01
+
+    # フラグ しのくびかざりを入手したことがあるか取得
+    def get_flg5(self):
+        return (self.savedata[12] >> 6) & 0x01
+
     # レベル取得
+
     def get_level(self, exp):
         lv = 30
 
