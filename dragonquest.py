@@ -167,7 +167,8 @@ class SaveData:
         # self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
         # self.word = self.pswd_to_code('ほりいゆうじえにつくすどらごくえすとだよ')
         # self.word = self.pswd_to_code('さいきようもちものですたあとしたいのだよ')
-        self.word = self.pswd_to_code('どらくえはねとげになつてつまらないあうと')
+        # self.word = self.pswd_to_code('どらくえはねとげになつてつまらないあうと')
+        self.word = self.pswd_to_code('かそじへむるがむゆおふるがごぜづびちれぎ')
 
         # for i in self.word:
         #     print(i, end=' ')
@@ -394,15 +395,15 @@ class App:
 
         # 三角カーソル
         if self.blink_flg:
-            pyxel.blt(56 + self.cur[0] * 16, 104 + self.cur[1] * 16, 0, 16, 72, 8, 8)
+            pyxel.blt(56 + self.cur[0] * 16, 104 + self.cur[1] * 16, 0, 248, 16, 8, 8)
 
         # 上段入力文字下のカーソル
-        pyxel.blt(pwd_pos[self.pos][0], pwd_pos[self.pos][1] + 8, 0, 16, 64, 8, 8)
+        pyxel.blt(pwd_pos[self.pos][0], pwd_pos[self.pos][1] + 8, 0, 16, 24, 8, 8)
 
         # 入力したふっかつのじゅもん
         for i, p in enumerate(self.pwd):
             if p == -1:
-                pyxel.blt(pwd_pos[i][0], pwd_pos[i][1], 0, 8, 72, 8, 8)
+                pyxel.blt(pwd_pos[i][0], pwd_pos[i][1], 0, 240, 16, 8, 8)
             else:
                 pyxel.blt(pwd_pos[i][0], pwd_pos[i][1] - 8, 0, 0 + p %
                           32 * 8, 16 + p // 32 * 16, 8, 16)
