@@ -5,49 +5,8 @@
 
 
 import pyxel
-
-CHARA_DAKU = 1      # 濁点文字
-CHARA_HANDAKU = 2   # 半濁点文字
-
-# 文字コード(本命)
-character_code = {
-    '　': (0, 0),
-    'あ': (1, 0), 'い': (2, 0), 'う': (3, 0), 'え': (4, 0), 'お': (5, 0),
-    'か': (6, 0), 'き': (7, 0), 'く': (8, 0), 'け': (9, 0), 'こ': (10, 0),
-    'が': (6, CHARA_DAKU), 'ぎ': (7, CHARA_DAKU), 'ぐ': (8, CHARA_DAKU),
-    'げ': (9, CHARA_DAKU), 'ご': (10, CHARA_DAKU),
-    'さ': (11, 0), 'し': (12, 0), 'す': (13, 0), 'せ': (14, 0), 'そ': (15, 0),
-    'ざ': (11, CHARA_DAKU), 'じ': (12, CHARA_DAKU), 'ず': (13, CHARA_DAKU),
-    'ぜ': (14, CHARA_DAKU), 'ぞ': (15, CHARA_DAKU),
-    'た': (16, 0), 'ち': (17, 0), 'つ': (18, 0), 'て': (19, 0), 'と': (20, 0),
-    'だ': (16, CHARA_DAKU), 'ぢ': (17, CHARA_DAKU), 'づ': (18, CHARA_DAKU),
-    'で': (19, CHARA_DAKU), 'ど': (20, CHARA_DAKU),
-    'な': (21, 0), 'に': (22, 0), 'ぬ': (23, 0), 'ね': (24, 0), 'の': (25, 0),
-    'は': (26, 0), 'ひ': (27, 0), 'ふ': (28, 0), 'へ': (29, 0), 'ほ': (30, 0),
-    'ば': (26, CHARA_DAKU), 'び': (27, CHARA_DAKU), 'ぶ': (28, CHARA_DAKU),
-    'べ': (29, CHARA_DAKU), 'ぼ': (30, CHARA_DAKU),
-    'ぱ': (26, CHARA_HANDAKU), 'ぴ': (27, CHARA_HANDAKU), 'ぷ': (28, CHARA_HANDAKU),
-    'ぺ': (29, CHARA_HANDAKU), 'ぽ': (30, CHARA_HANDAKU),
-    'ま': (31, 0), 'み': (32, 0), 'む': (33, 0), 'め': (34, 0), 'も': (35, 0),
-    'や': (36, 0), 'ゆ': (37, 0), 'よ': (38, 0),
-    'ら': (39, 0), 'り': (40, 0), 'る': (41, 0), 'れ': (42, 0), 'ろ': (43, 0),
-    'わ': (44, 0), 'を': (45, 0), 'ん': (46, 0),
-    'っ': (47, 0), 'ゅ': (48, 0),
-    'イ': (49, 0), 'カ': (50, 0), 'ガ': (50, CHARA_DAKU), 'キ': (51, 0), 'ギ': (51, CHARA_DAKU),
-    'コ': (52, 0), 'ゴ': (52, CHARA_DAKU), 'シ': (53, 0), 'ジ': (53, CHARA_DAKU),
-    'ス': (54, 0), 'ズ': (54, CHARA_DAKU), 'タ': (55, 0), 'ダ': (55, CHARA_DAKU),
-    'ト': (56, 0), 'ド': (69, 0),
-    'ヘ': (57, 0), 'ベ': (57, CHARA_DAKU), 'ペ': (57, CHARA_HANDAKU),
-    'ホ': (58, 0),  'ボ': (58, CHARA_DAKU), 'ポ': (58, CHARA_HANDAKU),
-    'マ': (59, 0), 'ミ': (60, 0), 'ム': (61, 0), 'メ': (62, 0),
-    'ラ': (63, 0), 'リ': (64, 0), 'ル': (65, 0), 'レ': (66, 0), 'ロ': (67, 0),
-    'ン': (68, 0),
-    '0': (70, 0), '1': (71, 0), '2': (72, 0), '3': (73, 0), '4': (74, 0), '5': (75, 0),
-    '6': (76, 0), '7': (77, 0), '8': (78, 0), '9': (79, 0),
-    'H': (80, 0), 'M': (81, 0), 'P': (82, 0), 'G': (83, 0), 'E': (84, 0),
-    '。': (85, 0), ':': (88, 0), '?': (89, 0), '!': (90, 0), '・': (91, 0),
-    '-': (92, 0), '「': (93, 0), '*': (94, 0),
-}
+import dq_sub
+import dq_data
 
 # 文字コード
 str_code = (
@@ -60,23 +19,6 @@ str_code = (
     35, 36, 37, 43
 )
 
-# 文字と文字コード対応表
-str_dic = {
-    'あ': 0, 'い': 1, 'う': 2, 'え': 3, 'お': 4,
-    'か': 5, 'き': 6, 'く': 7, 'け': 8, 'こ': 9,
-    'さ': 10, 'し': 11, 'す': 12, 'せ': 13, 'そ': 14,
-    'た': 15, 'ち': 16, 'つ': 17, 'て': 18, 'と': 19,
-    'な': 20, 'に': 21, 'ぬ': 22, 'ね': 23, 'の': 24,
-    'は': 25, 'ひ': 26, 'ふ': 27, 'へ': 28, 'ほ': 29,
-    'ま': 30, 'み': 31, 'む': 32, 'め': 33, 'も': 34,
-    'や': 35, 'ゆ': 36, 'よ': 37,
-    'ら': 38, 'り': 39, 'る': 40, 'れ': 41, 'ろ': 42,
-    'わ': 43,
-    'が': 44, 'ぎ': 45, 'ぐ': 46, 'げ': 47, 'ご': 48,
-    'ざ': 49, 'じ': 50, 'ず': 51, 'ぜ': 52, 'ぞ': 53,
-    'だ': 54, 'ぢ': 55, 'づ': 56, 'で': 57, 'ど': 58,
-    'ば': 59, 'び': 60, 'ぶ': 61, 'べ': 62, 'ぼ': 63,
-}
 
 # 入力した文字が表示される所の座標
 pwd_pos = (
@@ -85,273 +27,6 @@ pwd_pos = (
     (152, 48), (160, 48), (64, 72), (72, 72), (80, 72),
     (88, 72), (96, 72), (112, 72), (120, 72), (128, 72)
 )
-
-# 名前用文字
-name_code = (
-    '０', '１', '２', '３', '４',
-    '５', '６', '７', '８', '９',
-    'あ', 'い', 'う', 'え', 'お',
-    'か', 'き', 'く', 'け', 'こ',
-    'さ', 'し', 'す', 'せ', 'そ',
-    'た', 'ち', 'つ', 'て', 'と',
-    'な', 'に', 'ぬ', 'ね', 'の',
-    'は', 'ひ', 'ふ', 'へ', 'ほ',
-    'ま', 'み', 'む', 'め', 'も',
-    'や', 'ゆ', 'よ',
-    'ら', 'り', 'る', 'れ', 'ろ',
-    'わ', 'を', 'ん',
-    'っ', 'ゃ', 'ゅ', 'ょ',
-    '”', '゜', '－', '　'
-)
-
-# ぶき
-weapon = ('なし', 'たけざお', 'こんぼう', 'どうのつるぎ', 'てつのおの', 'はがねのつるぎ', 'ほのおのつるぎ', 'ロトのつるぎ')
-
-# よろい
-armor = ('なし', 'ぬののふく', 'かわのふく', 'くさりかたびら', 'てつのよろい', 'はがねのよろい', 'まほうのよろい', 'ロトのよろい')
-
-# たて
-shield = ('なし', 'かわのたて', 'てつのたて', 'みかがみのたて')
-
-# アイテム
-item = ('なし', 'たいまつ', 'せいすい', 'キメラのつばさ', 'りゅうのうろこ', 'ようせいのふえ', 'せんしのゆびわ', 'ロトのしるし',
-        'おうじょのあい', 'のろいのベルト', 'ぎんのたてごと', 'しのくびかざり', 'たいようのいし', 'あまぐものつえ', 'にじのしずく')
-
-# レベルとけいけんちの対応表
-lv_exp = (65535, 65000, 61000, 57000, 53000, 49000, 45000, 41000, 37000, 33000, 29000, 25000, 21000,
-          17000, 13000, 10000, 7500, 5500, 4000, 2900, 2000, 1300, 800, 450, 220, 110, 47, 23, 7, 0)
-
-
-class SaveData:
-    # 0
-    # 1番目のアイテム 4bit 0～14
-    # 2番目のアイテム 4bit 0～14
-
-    # 1
-    # フラグ せんしのゆびわを装備しているか 1bit
-    # 名前2文字目 6bit 0～63
-    # フラグ りゅうのうろこを装備したことがあるか 1bit
-
-    # 2
-    # 経験値上位 8bit
-
-    # 3
-    # 5番目のアイテム 4bit 0～14
-    # 6番目のアイテム 4bit 0～14
-
-    # 4
-    # やくそう個数 4bit 0～6
-    # かぎ個数 4bit 0～6
-
-    # 5
-    # ゴールド上位 8bit
-
-    # 6
-    # たて 2bit 0～3
-    # よろい 3bit 0～7
-    # ぶき 3bit 0～7
-
-    # 7
-    # 名前4文字目 6bit 0～63
-    # フラグ ドラゴンを倒したか 1bit
-    # 暗号化キー1 1bit
-
-    # 8
-    # 7番目のアイテム 4bit 0～14
-    # 8番目のアイテム 4bit 0～14
-
-    # 9
-    # 暗号化キー2 1bit
-    # フラグ ゴーレムを倒したか 1bit
-    # 名前1文字目 6bit 0～63
-
-    # 10
-    # ゴールド下位 8bit
-
-    # 11
-    # 3番目のアイテム 4bit 0～14
-    # 4番目のアイテム 4bit 0～14
-
-    # 12
-    # 名前3文字目 6bit 0～63
-    # フラグ しのくびかざりを入手したことがあるか 1bit
-    # 暗号化キー3 1bit
-
-    # 13
-    # 経験値下位 8bit
-
-    # 14
-    # CRC 8bit
-
-    def __init__(self):
-
-        # セーブデータ15byte分
-        self.savedata = [0] * 15
-        # ふっかつのじゅもん20文字分
-        # けせいなの　へごべううつに　はほめよれ　よごぜ
-        self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
-        # self.word = [8, 13, 1, 20, 24, 28, 48, 62, 2, 2, 17, 21, 25, 29, 36, 37, 41, 37, 48, 52]
-
-        self.item = [0] * 8
-
-    def crc(self):
-        cd = 0x8000  # 1000 0000 0000 0000
-        for i in range(15):
-            for j in range(8):
-                if cd & 0x8000:
-                    cd = (cd << 1) ^ 0x1021  # 0001 0000 0010 0001
-                else:
-                    cd <<= 1
-
-    def load(self):
-        data = [0] * 20
-
-        # self.word = self.pswd_to_code('おさべつにはほわげげだどべうきさそさには')
-        # self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
-        # self.word = self.pswd_to_code('ほりいゆうじえにつくすどらごくえすとだよ')
-        # self.word = self.pswd_to_code('さいきようもちものですたあとしたいのだよ')
-        # self.word = self.pswd_to_code('どらくえはねとげになつてつまらないあうと')
-        self.word = self.pswd_to_code('かそじへむるがむゆおふるがごぜづびちれぎ')
-
-        # for i in self.word:
-        #     print(i, end=' ')
-        # print('')
-
-        self.decrypt(data)
-        self.savedata = self.convert_6to8(data)
-        print('■ なまえ：', self.get_name())
-        print('■ ゴールド：', self.get_gold())
-        print('■ けいけんち：', self.get_exp())
-        print('■ レベル：', self.get_level(self.get_exp()))
-        print('■ ぶき：', weapon[self.get_weapon()])
-        print('■ よろい：', armor[self.get_armor()])
-        print('■ たて：', shield[self.get_shield()])
-        print('■ やくそう：', self.get_herbs())
-        print('■ かぎ：', self.get_keys())
-        print('■ アイテム')
-        self.get_item()
-        for i in self.item:
-            print('　', i)
-        print('■ せんしのゆびわを装備しているか：', bool(self.get_flg1()))
-        print('■ りゅうのうろこを装備したことがあるか：', bool(self.get_flg2()))
-        print('■ ドラゴンを倒したか：', bool(self.get_flg3()))
-        print('■ ゴーレムを倒したか：', bool(self.get_flg4()))
-        print('■ しのくびかざりを入手したことがあるか：', bool(self.get_flg5()))
-
-        # for i in data:
-        #     print(i)
-
-    def decrypt(self, data):
-        # まずふっかつのじゅもんのうしろの文字からひとつ前の文字を引いて、
-        # さらにそこから４を引いた数字から6bit取り出す
-        index = 19
-        for i in range(index):
-            data[index] = (self.word[index] - self.word[index - 1] - 4) & 0x3F  # 0011 1111
-            index -= 1
-
-        data[0] = (self.word[0] - 4) & 0x3F
-
-    # ふっかつのじゅもんを数値化した物を後ろの6bitを前に8bitに切り分けながら並べ替え
-    def convert_6to8(self, data):
-        d = []
-        index = 19
-        for i in range(5):
-            tmp = (data[index] << 18) | (data[index - 1] <<
-                                         12) | (data[index - 2] << 6) | data[index - 3]
-            d.append((tmp >> 16) & 0xFF)
-            d.append((tmp >> 8) & 0xFF)
-            d.append(tmp & 0xFF)
-            index -= 4
-
-        return d
-
-    # なまえ取得
-    def get_name(self):
-        name = name_code[(self.savedata[9] >> 2) & 0x3F]
-        name += name_code[(self.savedata[1] >> 1) & 0x3F]
-        name += name_code[self.savedata[12] & 0x3F]
-        name += name_code[self.savedata[7] & 0x3F]
-        return name
-
-    # ゴールド取得
-    def get_gold(self):
-        return self.savedata[5] << 8 | self.savedata[10]
-
-    # 経験値取得
-    def get_exp(self):
-        return self.savedata[2] << 8 | self.savedata[13]
-
-    # ぶき取得
-    def get_weapon(self):
-        return (self.savedata[6] >> 5) & 0x07
-
-    # よろい取得
-    def get_armor(self):
-        return (self.savedata[6] >> 2) & 0x07
-
-    # たて取得
-    def get_shield(self):
-        return self.savedata[6] & 0x03
-
-    # アイテム取得
-    def get_item(self):
-        self.item[0] = item[self.savedata[0] & 0x0F]
-        self.item[1] = item[(self.savedata[0] >> 4) & 0x0F]
-        self.item[2] = item[self.savedata[11] & 0x0F]
-        self.item[3] = item[(self.savedata[11] >> 4) & 0x0F]
-        self.item[4] = item[self.savedata[3] & 0x0F]
-        self.item[5] = item[(self.savedata[3] >> 4) & 0x0F]
-        self.item[6] = item[self.savedata[8] & 0x0F]
-        self.item[7] = item[(self.savedata[8] >> 4) & 0x0F]
-
-    # やくそう取得
-    def get_herbs(self):
-        return self.savedata[4] & 0x0F
-
-    # かぎ取得
-    def get_keys(self):
-        return (self.savedata[4] >> 4) & 0x0F
-
-    # フラグ せんしのゆびわを装備しているか取得
-    def get_flg1(self):
-        return self.savedata[1] & 0x01
-
-    # フラグ りゅうのうろこを装備したことがあるか取得
-    def get_flg2(self):
-        return (self.savedata[1] >> 7) & 0x01
-
-    # フラグ ドラゴンを倒したか取得
-    def get_flg3(self):
-        return (self.savedata[7] >> 6) & 0x01
-
-    # フラグ ゴーレムを倒したか取得
-    def get_flg4(self):
-        return (self.savedata[9] >> 1) & 0x01
-
-    # フラグ しのくびかざりを入手したことがあるか取得
-    def get_flg5(self):
-        return (self.savedata[12] >> 6) & 0x01
-
-    # レベル取得
-
-    def get_level(self, exp):
-        lv = 30
-
-        for e in lv_exp:
-            if exp >= e:
-                break
-            lv -= 1
-
-        return lv
-
-    # ふっかつのじゅもん文字列から文字コード表取得
-    def pswd_to_code(self, pswd):
-        code = []
-
-        for s in pswd:
-            code.append(str_dic[s])
-
-        return code
 
 
 class App:
@@ -366,11 +41,33 @@ class App:
         # カーソルを点滅させるためのフラグ
         self.blink_flg = True
 
-        self.save_data = SaveData()
+        self.save_data = dq_data.SaveData()
         self.save_data.load()
 
         pyxel.init(256, 240, caption='Dragon Quest ～ふっかつのじゅもん～')
         pyxel.load('my_resource.pyxres')
+
+        self.win = dq_sub.Window(0, 32, 32, 8, 12, self.save_data.name)
+        self.win.set_text(1, 2, 'レベル'+str(self.save_data.level).rjust(3))
+        self.win.set_text(1, 4, 'HP '+str(self.save_data.hp).rjust(3))
+        self.win.set_text(1, 6, 'MP '+str(self.save_data.mp).rjust(3))
+        self.win.set_text(1, 8, 'G'+str(self.save_data.gold).rjust(5))
+        self.win.set_text(1, 10, 'E'+str(self.save_data.exp).rjust(5))
+
+        self.win2 = dq_sub.Window(1, 96, 48, 14, 22, 'つよさ')
+        self.win2.set_text(4, 2, 'レベル:'+str(self.save_data.level).rjust(4))
+        self.win2.set_text(4, 4, 'ちから:'+str(self.save_data.power).rjust(4))
+        self.win2.set_text(3, 6, 'すばやさ:'+str(self.save_data.speed).rjust(4))
+        self.win2.set_text(1, 8, 'さいだいHP:'+str(self.save_data.hp).rjust(4))
+        self.win2.set_text(1, 10, 'さいだいMP:'+str(self.save_data.mp).rjust(4))
+        self.win2.set_text(
+            2, 12, 'こうげき力:'+str(self.save_data.power+dq_data.weapon_list[self.save_data.weapon][1]))
+        self.win2.set_text(3, 14, 'しゅび力:'+str(self.save_data.speed//2 +
+                                              dq_data.armor_list[self.save_data.armor][1]+dq_data.shield_list[self.save_data.shield][1]+self.save_data.flg[1]*2))
+        self.win2.set_text(3, 16, 'ぶき:'+dq_data.weapon_list[self.save_data.weapon][0])
+        self.win2.set_text(2, 18, 'よろい:'+dq_data.armor_list[self.save_data.armor][0])
+        self.win2.set_text(3, 20, 'たて:'+dq_data.shield_list[self.save_data.shield][0])
+
         pyxel.run(self.update, self.draw)
 
     def update(self):
@@ -438,18 +135,21 @@ class App:
 
         # 三角カーソル
         if self.blink_flg:
-            pyxel.blt(56 + self.cur[0] * 16, 104 + self.cur[1] * 16, 0, 248, 16, 8, 8)
+            pyxel.blt(56 + self.cur[0] * 16, 104 + self.cur[1] * 16, 0, 0, 24, 8, 8)
 
         # 上段入力文字下のカーソル
-        pyxel.blt(pwd_pos[self.pos][0], pwd_pos[self.pos][1] + 8, 0, 16, 24, 8, 8)
+        pyxel.blt(pwd_pos[self.pos][0], pwd_pos[self.pos][1] + 8, 0, 16, 32, 8, 8)
 
         # 入力したふっかつのじゅもん
         for i, p in enumerate(self.pwd):
             if p == -1:
-                pyxel.blt(pwd_pos[i][0], pwd_pos[i][1], 0, 240, 16, 8, 8)
+                pyxel.blt(pwd_pos[i][0], pwd_pos[i][1], 0, 248, 16, 8, 8)
             else:
                 pyxel.blt(pwd_pos[i][0], pwd_pos[i][1] - 8, 0, 0 + p %
                           32 * 8, 16 + p // 32 * 16, 8, 16)
+
+        self.win.disp()
+        self.win2.disp()
 
 
 App()
