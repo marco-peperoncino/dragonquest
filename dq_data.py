@@ -19,7 +19,7 @@ name_code = (
 )
 
 # 文字と文字コード対応表
-str_dic = {
+str_code = {
     'あ': 0, 'い': 1, 'う': 2, 'え': 3, 'お': 4,
     'か': 5, 'き': 6, 'く': 7, 'け': 8, 'こ': 9,
     'さ': 10, 'し': 11, 'す': 12, 'せ': 13, 'そ': 14,
@@ -198,7 +198,7 @@ class SaveData:
         self.savedata = [0] * 15
         # ふっかつのじゅもん20文字分
         # けせいなの　へごべううつに　はほめよれ　よごぜ
-        self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
+        # self.word = [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 0, 4, 8, 12, 16]
         # self.word = [8, 13, 1, 20, 24, 28, 48, 62, 2, 2, 17, 21, 25, 29, 36, 37, 41, 37, 48, 52]
 
         self.item = [0] * 8
@@ -212,19 +212,17 @@ class SaveData:
                 else:
                     cd <<= 1
 
-    def load(self):
+    def load(self, pswd):
         data = [0] * 20
 
+        self.word = self.pswd_to_code(pswd)
+
         # self.word = self.pswd_to_code('おさべつにはほわげげだどべうきさそさには')
-        self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
+        # self.word = self.pswd_to_code('ふるいけやかわずとびこむみずのおとばしや')
         # self.word = self.pswd_to_code('ほりいゆうじえにつくすどらごくえすとだよ')
         # self.word = self.pswd_to_code('さいきようもちものですたあとしたいのだよ')
         # self.word = self.pswd_to_code('どらくえはねとげになつてつまらないあうと')
         # self.word = self.pswd_to_code('かそじへむるがむゆおふるがごぜづびちれぎ')
-
-        # for i in self.word:
-        #     print(i, end=' ')
-        # print('')
 
         self.decrypt(data)
         self.savedata = self.convert_6to8(data)
@@ -369,6 +367,6 @@ class SaveData:
         code = []
 
         for s in pswd:
-            code.append(str_dic[s])
+            code.append(str_code[s])
 
         return code
