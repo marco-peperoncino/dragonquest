@@ -3,6 +3,13 @@ import pyxel
 # ウィンドウに使うtilemap番号の最初の番号
 WINDOW_TILEMAP = 1
 
+WINDOW_STATE_SHOW = 0   # 通常の表示状態
+WINDOW_STATE_HIDE = 1   # 非表示状態
+WINDOW_STATE_OPEN = 2   # ウィンドウ展開動作中
+WINDOW_STATE_CLOSE = 3  # ウィンドウ閉じ動作中
+
+WINDOW_SPEED = 3
+
 # 文字コード(本命)
 CHARA_DAKU = 1      # 濁点文字
 CHARA_HANDAKU = 2   # 半濁点文字
@@ -43,8 +50,8 @@ character_code = {
     '6': (77, 0), '６': (77, 0), '7': (78, 0), '７': (78, 0), '8': (79, 0), '８': (79, 0),
     '9': (80, 0), '９': (80, 0),
     'H': (81, 0), 'M': (82, 0), 'P': (83, 0), 'G': (84, 0), 'E': (85, 0),
-    '。': (86, 0), '゛': (87, 0), '゜': (88, 0), ':': (89, 0), '?': (90, 0), '!': (91, 0), '・': (92, 0),
-    '-': (93, 0), '「': (94, 0), '*': (95, 0),
+    '。': (86, 0), '゛': (87, 0), '゜': (88, 0), ':': (89, 0), '?': (90, 0), '!': (91, 0),
+    '・': (92, 0), '-': (93, 0), '「': (94, 0), '*': (95, 0),
     '力': (51, 0),
 }
 
@@ -78,10 +85,10 @@ class Window:
         self.y = y
         self.w = w
         self.h = h
-
-        self.dw = 0
-
+        self.dh = 0
         self.title = title
+
+        self.state = WINDOW_STATE_OPEN
 
         self.set()
 
@@ -150,7 +157,12 @@ class Window:
         return ts
 
     def disp(self):
-        pyxel.bltm(self.x, self.y, self.no, 0, 0, self.w, self.h)
+        if self.state == WINDOW_STATE_SHOW:
+            pyxel.bltm(self.x, self.y, self.no, 0, 0, self.w, self.h)
+        elif self.state == WINDOW_STATE_HIDE:
+            pass
+        else:
+            pyxel.bltm(self.x, self.y, self.no, 0, 0, self.w, self.dh)
 
     def set_pos(self, x, y):
         self.x = x
@@ -170,3 +182,15 @@ class Window:
         d[1] = d[1][:(x - 1) * 3] + self.get_text_tilemapdata(str) + d[1][(x + len(str)) * 3:]
 
         pyxel.tilemap(self.no).set(1, y - 1, d)
+
+    def update(self):
+        if self.state == WINDOW_STATE_OPEN:
+            self.dh += WINDOW_SPEED
+            if self.dh >= self.h:
+                self.dh = self.h
+                self.state = WINDOW_STATE_SHOW
+        elif self.state == WINDOW_STATE_CLOSE:
+            self.dh -= WINDOW_SPEED
+            if self.dh <= 0:
+                self.dh = 0
+                self.state = WINDOW_STATE_HIDE

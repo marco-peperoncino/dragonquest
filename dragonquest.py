@@ -1,7 +1,8 @@
 # ドラゴンクエスト ふっかつのじゅもん
-# 下記２つのページを大いに参考にさせていただいております。
+# 下記のページを大いに参考にさせていただいております。
 # https://qiita.com/yoshi389111/items/29ade2f62483e9c095d9
 # https://oscdis.hatenablog.com/entry/2014/03/30/225043
+# https://kyokugen.info/dq1/
 
 
 import pyxel
@@ -63,10 +64,15 @@ class App:
         self.win2.set_text(
             2, 12, 'こうげき力:'+str(self.save_data.power+dq_data.weapon_list[self.save_data.weapon][1]))
         self.win2.set_text(3, 14, 'しゅび力:'+str(self.save_data.speed//2 +
-                                              dq_data.armor_list[self.save_data.armor][1]+dq_data.shield_list[self.save_data.shield][1]+self.save_data.flg[1]*2))
+                                              dq_data.armor_list[self.save_data.armor][1] +
+                                              dq_data.shield_list[self.save_data.shield][1] +
+                                              self.save_data.flg[1]*2))
         self.win2.set_text(3, 16, 'ぶき:'+dq_data.weapon_list[self.save_data.weapon][0])
         self.win2.set_text(2, 18, 'よろい:'+dq_data.armor_list[self.save_data.armor][0])
         self.win2.set_text(3, 20, 'たて:'+dq_data.shield_list[self.save_data.shield][0])
+
+        self.win.state = dq_sub.WINDOW_STATE_HIDE
+        self.win2.state = dq_sub.WINDOW_STATE_HIDE
 
         pyxel.run(self.update, self.draw)
 
@@ -121,6 +127,13 @@ class App:
             elif cur_pos == 68:
                 print('おわり')
 
+            print(pyxel.tilemap(0).get(self.cur[0] + 1, self.cur[1]))
+
+            # if self.win2.state == dq_sub.WINDOW_STATE_SHOW or self.win2.state == dq_sub.WINDOW_STATE_OPEN:
+            #     self.win2.state = dq_sub.WINDOW_STATE_CLOSE
+            # elif self.win2.state == dq_sub.WINDOW_STATE_HIDE or self.win2.state == dq_sub.WINDOW_STATE_CLOSE:
+            #     self.win2.state = dq_sub.WINDOW_STATE_OPEN
+
             # for p in self.pwd:
             #     print(f'{p}, ', end='')
             # print('')
@@ -128,6 +141,9 @@ class App:
         # カーソルを点滅させる
         if pyxel.frame_count % 4 == 0:
             self.blink_flg = False if self.blink_flg else True
+
+        self.win.update()
+        self.win2.update()
 
     def draw(self):
         pyxel.cls(0)
